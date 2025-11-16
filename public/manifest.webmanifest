@@ -1,0 +1,13 @@
+{
+  "name": "Kanban Étudiants",
+  "short_name": "Kanban",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#282c34",
+  "theme_color": "#61afef",
+  "lang": "fr",
+  "orientation": "portrait",
+  "categories": ["productivity", "education"],
+  "prefer_related_applications": false
+}
