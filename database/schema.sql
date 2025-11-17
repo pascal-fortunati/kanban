@@ -1,3 +1,4 @@
+-- 1. Créer users SANS la foreign key vers repositories
 CREATE TABLE IF NOT EXISTS users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -8,9 +9,9 @@ CREATE TABLE IF NOT EXISTS users (
   github_username VARCHAR(255) NULL,
   active_repo_id INT NULL,
   created_at DATETIME NOT NULL
-  CONSTRAINT fk_users_active_repo FOREIGN KEY (active_repo_id) REFERENCES repositories(id) ON DELETE SET NULL;
 );
 
+-- 2. Créer repositories (maintenant users existe)
 CREATE TABLE IF NOT EXISTS repositories (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
@@ -21,6 +22,7 @@ CREATE TABLE IF NOT EXISTS repositories (
   CONSTRAINT fk_repos_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+-- 3. Créer tasks
 CREATE TABLE IF NOT EXISTS tasks (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
@@ -36,6 +38,7 @@ CREATE TABLE IF NOT EXISTS tasks (
   CONSTRAINT fk_tasks_repo FOREIGN KEY (repo_id) REFERENCES repositories(id) ON DELETE SET NULL
 );
 
+-- 4. Créer commits
 CREATE TABLE IF NOT EXISTS commits (
   id INT AUTO_INCREMENT PRIMARY KEY,
   message VARCHAR(255) NOT NULL,
@@ -49,6 +52,7 @@ CREATE TABLE IF NOT EXISTS commits (
   CONSTRAINT fk_commits_task FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE SET NULL
 );
 
+-- 5. Créer notifications
 CREATE TABLE IF NOT EXISTS notifications (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_id INT NOT NULL,
@@ -59,3 +63,8 @@ CREATE TABLE IF NOT EXISTS notifications (
   created_at DATETIME NOT NULL,
   CONSTRAINT fk_notifications_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- 6. Ajouter la foreign key vers repositories dans users
+ALTER TABLE users 
+ADD CONSTRAINT fk_users_active_repo 
+FOREIGN KEY (active_repo_id) REFERENCES repositories(id) ON DELETE SET NULL;
